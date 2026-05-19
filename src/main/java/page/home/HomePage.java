@@ -1,4 +1,4 @@
-package page;
+package page.home;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class HomePage {
     private WebDriver driver;
@@ -63,5 +62,4 @@ public class HomePage {
         }
         return texts;
     }
-
 }
