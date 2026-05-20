@@ -10,7 +10,6 @@ public class AuthService {
     private Map<String, String> headers = new HashMap<>();
     private Object body;
     private int statusCode;
-    private String responseBody;
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
@@ -34,21 +33,8 @@ public class AuthService {
         extractResponseData(response);
     }
 
-    public void doCustomGet(String url) {
-        Response response = given()
-                .headers(headers)
-                .when()
-                .get(url)
-                .then()
-                .extract()
-                .response();
-
-        extractResponseData(response);
-    }
-
     private void extractResponseData(Response response) {
         this.statusCode = response.getStatusCode();
-        this.responseBody = response.asString();
     }
 
     public int getStatusCode() {
