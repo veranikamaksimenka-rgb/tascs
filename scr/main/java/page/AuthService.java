@@ -40,5 +40,4 @@ public class AuthService {
     public int getStatusCode() {
         return statusCode;
     }
-
 }
