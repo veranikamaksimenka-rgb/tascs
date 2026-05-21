@@ -1,6 +1,7 @@
 package test.home;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,19 +22,25 @@ public class HomeTest {
     @Test
     @DisplayName("Проверка поиска")
     public void test001(){
+        String searchItem = "лопата";
         driver.get("https://7745.by/");
         homePage.closeCookieButton();
         homePage.closeCookieNextButton();
-        homePage.inputText("лопата");
+        homePage.inputText(searchItem);
         homePage.clickSearch();
         List<String> results = homePage.getAllCardTexts();
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(results)
+                .as("Список результатов поиска")
+                .isNotEmpty();
 
-        Assertions.assertAll("Проверка всех карточек",
-                () -> Assertions.assertFalse(results.isEmpty(), "Список пустой"),
-                () -> results.forEach(cardText ->
-                        Assertions.assertTrue(cardText.toLowerCase().contains("лопата"),
-                                "Слово 'лопата' не найдено в: " + cardText))
-        );
+        results.forEach(cardText -> {
+            softly.assertThat(cardText.toLowerCase())
+                    .as("Текст карточки товара")
+                    .contains(searchItem.toLowerCase());
+        });
+
+        softly.assertAll();
     }
 
     @AfterEach
